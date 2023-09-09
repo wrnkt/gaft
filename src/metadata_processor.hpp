@@ -29,8 +29,8 @@ enum class file_ext_filter {
     AUDIO,
 };
 
-typedef std::function<bool(const fs::path&)> file_filter_func;
-typedef file_filter_func file_ext_filter_func;
+using file_filter_func = std::function<bool(const fs::path&)>;
+using file_ext_filter_func = file_filter_func;
 
 class metadata_processor_t {
     public:
