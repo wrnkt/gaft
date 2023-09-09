@@ -18,37 +18,37 @@ metadata_processor_t::~metadata_processor_t()
 {
 }
 
-bool metadata_processor_t::has_text_extension(const fs::path& p)
+bool metadata_processor_t::has_text_extension(const fs::path& f_path)
 {
-    std::string ext = p.extension();
-    return is_in(p.extension(), ".txt", ".md");
+    std::string ext = f_path.extension();
+    return is_in(f_path.extension(), ".txt", ".md");
 }
 
 // TODO: implement
-static bool has_audio_extension(const fs::path& p);
+static bool has_audio_extension(const fs::path& f_path);
 
-path_preprocess_info_t metadata_processor_t::preprocess_info(const fs::path& p) {
+path_preprocess_info_t metadata_processor_t::preprocess_info(const fs::path& dir_path) {
     return path_preprocess_info_t {
-        .path_exists = path_exists(p),
-        .is_dir = is_dir(p)
+        .path_exists = path_exists(dir_path),
+        .is_dir = is_dir(dir_path)
     };
 }
 
-bool metadata_processor_t::add_file_ext_filter(file_ext_filter f) {
-    auto [it, success] = file_ext_filters.insert(f);
+bool metadata_processor_t::add_file_ext_filter(file_ext_filter filter) {
+    auto [it, success] = file_ext_filters.insert(filter);
     return success;
 }
 
-bool metadata_processor_t::remove_file_ext_filter(file_ext_filter f) {
-    return file_ext_filters.erase(f);
+bool metadata_processor_t::remove_file_ext_filter(file_ext_filter filter) {
+    return file_ext_filters.erase(filter);
 }
 
-bool metadata_processor_t::path_exists(const fs::path& p) {
-    return fs::exists(p);
+bool metadata_processor_t::path_exists(const fs::path& path) {
+    return fs::exists(path);
 }
 
-bool metadata_processor_t::is_dir(const fs::path& p) {
-    return fs::is_directory(p);
+bool metadata_processor_t::is_dir(const fs::path& dir_path) {
+    return fs::is_directory(dir_path);
 }
 
 bool metadata_processor_t::valid_file_ext(const fs::path& f_path) {
@@ -70,10 +70,10 @@ file_metadata_t metadata_processor_t::get_metadata(const fs::path& f_path)
     return fm;
 }
 
-uintmax_t metadata_processor_t::compute_file_size(const fs::path& path)
+uintmax_t metadata_processor_t::compute_file_size(const fs::path& f_path)
 {
     auto err = std::error_code {};
-    auto filesize = fs::file_size(path, err);
+    auto filesize = fs::file_size(f_path, err);
     if (filesize != static_cast<uintmax_t>(-1))
         return filesize;
     return static_cast<uintmax_t>(-1);
