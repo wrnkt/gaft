@@ -13,33 +13,30 @@
 namespace fs = std::filesystem;
 
 
-struct file_metadata_t {
+struct file_metadata_t
+{
     fs::path file_path;
     std::string file_name;
     uintmax_t file_size;
 };
 
-struct path_preprocess_info_t {
+struct path_preprocess_info_t
+{
     bool path_exists { false };
     bool is_dir { false };
-    bool is_processable() {
-        return path_exists && is_dir;
-    }
+    bool is_processable() { return path_exists && is_dir; }
 };
 
-enum class file_ext_filter {
-    TEXT,
-    AUDIO,
-};
+enum class file_ext_filter { TEXT, AUDIO };
 
 
 using file_filter_func = std::function<bool(const fs::path&)>;
 using file_ext_filter_func = file_filter_func;
 
 
-class metadata_processor_t {
+class metadata_processor_t
+{
     public:
-
         metadata_processor_t();
         ~metadata_processor_t();
 
@@ -68,5 +65,6 @@ class metadata_processor_t {
         // Metadata collection
         file_metadata_t get_metadata(const fs::path& f_path);
         uintmax_t compute_file_size(const fs::path& f_path);
+
 };
 
