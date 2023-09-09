@@ -18,6 +18,12 @@ metadata_processor_t::~metadata_processor_t()
 {
 }
 
+bool metadata_processor_t::has_text_extension(const fs::path& p)
+{
+    std::string ext = p.extension();
+    return is_in(p.extension(), ".txt", ".md");
+}
+
 
 path_preprocess_info_t metadata_processor_t::preprocess_info(const fs::path& p) {
     return path_preprocess_info_t {
@@ -45,6 +51,13 @@ bool metadata_processor_t::path_exists(const fs::path& p) {
 
 bool metadata_processor_t::is_dir(const fs::path& p) {
     return fs::is_directory(p);
+}
+
+bool metadata_processor_t::valid_file_ext(const fs::path& f_path) {
+    for(auto filter : file_ext_filters) {
+        if(ext_filter_map.find(filter)->second(f_path)) return true;
+    }
+    return false;
 }
 
 // TODO: not implemented

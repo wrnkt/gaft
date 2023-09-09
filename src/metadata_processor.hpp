@@ -6,6 +6,7 @@
 #include <vector>
 #include <set>
 #include <functional>
+#include "util.h"
 
 namespace fs = std::filesystem;
 
@@ -42,12 +43,15 @@ class metadata_processor_t {
         bool remove_file_ext_filter(file_ext_filter f);
         bool add_file_ext_filter(file_ext_filter f);
 
+        bool valid_file_ext(const fs::path& f_path);
+
         std::vector<file_metadata_t> get_recursive_file_metadata(const fs::path& dir_path);
 
+
     private:
-        bool valid_file(const fs::path& f_path);
         std::set<file_ext_filter> file_ext_filters;
         const std::map<file_ext_filter, file_ext_filter_func> ext_filter_map;
+        static bool has_text_extension(const fs::path& p);
 
         bool path_exists(const fs::path& p);
         bool is_dir(const fs::path& p);
