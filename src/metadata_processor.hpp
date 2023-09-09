@@ -52,6 +52,7 @@ class metadata_processor_t {
         std::set<file_ext_filter> file_ext_filters;
         const std::map<file_ext_filter, file_ext_filter_func> ext_filter_map;
         static bool has_text_extension(const fs::path& p);
+        static bool has_audio_extension(const fs::path& p);
 
         bool path_exists(const fs::path& p);
         bool is_dir(const fs::path& p);
