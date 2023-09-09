@@ -40,7 +40,9 @@ bool metadata_processor_t::add_file_ext_filter(file_ext_filter f) {
 }
 
 // TODO: not implemented
-// bool remove_file_ext_filter(file_filter f);
+bool metadata_processor_t::remove_file_ext_filter(file_ext_filter f) {
+    return file_ext_filters.erase(f);
+}
 
 bool metadata_processor_t::path_exists(const fs::path& p) {
     return fs::exists(p);
