@@ -39,7 +39,6 @@ bool metadata_processor_t::add_file_ext_filter(file_ext_filter f) {
     return success;
 }
 
-// TODO: not implemented
 bool metadata_processor_t::remove_file_ext_filter(file_ext_filter f) {
     return file_ext_filters.erase(f);
 }
@@ -62,5 +61,20 @@ bool metadata_processor_t::valid_file_ext(const fs::path& f_path) {
 // TODO: not implemented
 // std::vector<file_metadata_t> get_recursive_file_metadata(const fs::path& dir_path);
 
-// TODO: not implemented
-// bool metadata_processor_t::get_metadata(const fs::path& file_path, file_metadata_t* const fm);
+file_metadata_t metadata_processor_t::get_metadata(const fs::path& f_path)
+{
+    file_metadata_t fm {};
+    if(f_path.has_filename()) {
+        fm.file_name = f_path.filename();
+    }
+    return fm;
+}
+
+uintmax_t metadata_processor_t::compute_file_size(const fs::path& path)
+{
+    auto err = std::error_code {};
+    auto filesize = fs::file_size(path, err);
+    if (filesize != static_cast<uintmax_t>(-1))
+        return filesize;
+    return static_cast<uintmax_t>(-1);
+}
