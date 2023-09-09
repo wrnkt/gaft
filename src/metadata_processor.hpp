@@ -26,11 +26,12 @@ class metadata_processor_t {
         std::vector<file_metadata_t> get_recursive_file_metadata(const fs::path& dir_path);
 
     private:
-        uintmax_t compute_file_size(const fs::path& p);
-
-        bool get_metadata(const fs::path& file_path, file_metadata_t* const fm);
+        bool valid_file(const fs::path& f_path);
 
         bool path_exists(const fs::path& p);
         bool is_dir(const fs::path& p);
+
+        bool get_metadata(const fs::path& file_path, file_metadata_t* const fm);
+        uintmax_t compute_file_size(const fs::path& p);
 };
 
