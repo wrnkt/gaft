@@ -6,9 +6,12 @@
 #include <vector>
 #include <set>
 #include <functional>
+
 #include "util.h"
 
+
 namespace fs = std::filesystem;
+
 
 struct file_metadata_t {
     fs::path file_path;
@@ -29,8 +32,10 @@ enum class file_ext_filter {
     AUDIO,
 };
 
+
 using file_filter_func = std::function<bool(const fs::path&)>;
 using file_ext_filter_func = file_filter_func;
+
 
 class metadata_processor_t {
     public:
@@ -49,15 +54,19 @@ class metadata_processor_t {
 
 
     private:
+        
+        // File extension filtering utilities
         std::set<file_ext_filter> file_ext_filters;
         const std::map<file_ext_filter, file_ext_filter_func> ext_filter_map;
         static bool has_text_extension(const fs::path& p);
         static bool has_audio_extension(const fs::path& p);
 
+        // Validation
         bool path_exists(const fs::path& p);
         bool is_dir(const fs::path& p);
 
-        bool get_metadata(const fs::path& file_path, file_metadata_t* const fm);
+        // Metadata collection
+        file_metadata_t get_metadata(const fs::path& file_path);
         uintmax_t compute_file_size(const fs::path& p);
 };
 
