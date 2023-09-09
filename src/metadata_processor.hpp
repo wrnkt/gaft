@@ -11,9 +11,11 @@ struct file_metadata_t {
 };
 
 struct dir_process_result_t {
-    bool is_valid;
-    bool exists;
-    bool is_directory;
+    bool path_exists { false };
+    bool is_dir { false };
+    bool is_valid() {
+        return path_exists && is_dir;
+    }
 };
 
 class metadata_processor_t {
@@ -23,5 +25,7 @@ class metadata_processor_t {
     private:
         uintmax_t compute_file_size(const std::filesystem::path& p);
         bool get_metadata(const std::filesystem::path& file_path, file_metadata_t* const fm);
+        bool path_exists(const std::filesystem::path& p);
+        bool is_dir(const std::filesystem::path& p);
 };
 
