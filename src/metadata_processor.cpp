@@ -1,6 +1,7 @@
 #include "metadata_processor.hpp"
 
 #include <string>
+#include <iostream>
 #include <filesystem>
 #include <vector>
 #include <algorithm>
@@ -9,7 +10,7 @@
 metadata_processor_t::metadata_processor_t()
     : file_ext_filters {}
     , ext_filter_map {
-        { file_ext_filter::TEXT, has_text_extension }
+        { file_ext_filter::TEXT, has_text_extension },
     }
 {
 }
@@ -67,8 +68,16 @@ bool metadata_processor_t::is_dir(const fs::path& dir_path)
     return fs::is_directory(dir_path);
 }
 
-// TODO: not implemented
-// std::vector<file_metadata_t> get_recursive_file_metadata(const fs::path& dir_path);
+std::vector<file_metadata_t> metadata_processor_t::get_recursive_file_metadata(const fs::path& dir_path)
+{
+    std::vector<file_metadata_t> fm_vec {};
+    for(fs::path f_path : fs::recursive_directory_iterator(dir_path)) {
+        if(fs::exists(f_path) && fs::is_regular_file(f_path) && valid_file_ext(f_path)) {
+            fm_vec.push_back(get_metadata(f_path));
+        }
+    }
+    return fm_vec;
+}
 
 file_metadata_t metadata_processor_t::get_metadata(const fs::path& f_path)
 {
