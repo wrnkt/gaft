@@ -38,20 +38,29 @@ class metadata_processor_t
         metadata_processor_t();
         ~metadata_processor_t();
 
-        path_preprocess_info_t preprocess_info(const fs::path& dir_path);
+        path_preprocess_info_t preprocess_info (const fs::path& dir_path);
 
+        std::vector<file_metadata_t> get_recursive_file_metadata (const fs::path& dir_path);
 
-        std::vector<file_metadata_t> get_recursive_file_metadata(const fs::path& dir_path);
+        bool add_file_search_ext     (GAFT_F_EXT ext);
+        bool remove_file_search_ext  (GAFT_F_EXT ext);
 
+        bool add_file_search_kind    (GAFT_F_KIND kind);
+        bool remove_file_search_kind (GAFT_F_KIND kind);
 
     private:
-        // Validation
-        bool path_exists(const fs::path& path);
-        bool is_dir(const fs::path& dir_path);
 
-        // Metadata collection
-        file_metadata_t get_metadata(const fs::path& f_path);
-        uintmax_t compute_file_size(const fs::path& f_path);
+        std::set<GAFT_F_EXT>  file_search_exts {};
+        std::set<GAFT_F_KIND> file_search_kinds {};
+
+        bool path_exists     (const fs::path& path);
+        bool is_dir          (const fs::path& dir_path);
+        bool is_processable  (const fs::path& f_path);
+        bool should_process  (const fs::path& f_path);
+
+
+        file_metadata_t get_metadata      (const fs::path& f_path);
+        uintmax_t       compute_file_size (const fs::path& f_path);
 
 };
 

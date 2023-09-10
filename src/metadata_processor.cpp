@@ -13,23 +13,40 @@ metadata_processor_t::metadata_processor_t() {}
 metadata_processor_t::~metadata_processor_t() {}
 
 
+bool metadata_processor_t::add_file_search_ext(GAFT_F_EXT ext)
 {
-}
-
-{
-}
-
-
-{
+    auto [it, success] = file_search_exts.insert(ext);
     return success;
 }
 
+bool metadata_processor_t::remove_file_search_ext(GAFT_F_EXT ext)
 {
+    return file_search_exts.erase(ext);
 }
 
 
+bool metadata_processor_t::add_file_search_kind(GAFT_F_KIND kind)
 {
+    auto [it, success] = file_search_kinds.insert(kind);
+    return success;
+}
+
+bool metadata_processor_t::remove_file_search_kind(GAFT_F_KIND kind)
+{
+    return file_search_kinds.erase(kind);
+}
+
+
+bool metadata_processor_t::should_process(const fs::path& f_path)
+{
+    const auto& [ext, kind] = FILE_CLASSIFICATION_MAP.at(f_path.extension());
+    if(file_search_exts.contains(ext) || file_search_kinds.contains(kind)) return true;
     return false;
+}
+
+bool metadata_processor_t::is_processable(const fs::path& f_path)
+{
+    return fs::is_regular_file(f_path) && fs::exists(f_path);
 }
 
 
@@ -76,7 +93,8 @@ uintmax_t metadata_processor_t::compute_file_size(const fs::path& f_path)
 {
     auto err = std::error_code {};
     auto filesize = fs::file_size(f_path, err);
-    if (filesize != static_cast<uintmax_t>(-1))
+    if (filesize != static_cast<uintmax_t>(-1)) {
         return filesize;
+    }
     return static_cast<uintmax_t>(-1);
 }
