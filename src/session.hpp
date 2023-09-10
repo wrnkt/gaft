@@ -23,7 +23,7 @@ class console_session_t : session_t
         console_session_t();
         ~console_session_t();
 
-        void prompt();
+        void prompt(int argc, char* argv[]);
         void log_dir_info(const std::string& f_path_str);
 
     private:
