@@ -5,17 +5,17 @@
 #include <format>
 
 #include "gaft.hpp"
+#include "metadata_processor.hpp"
+
 
 class interface_t {};
+
+class gui_interface_t: interface_t {};
 
 class console_interface_t: interface_t
 {
     public:
-        void display_welcome();
-        void display_usage(const std::string& prog);
-        const std::string& display_directory_prompt();
-};
-
-class gui_interface_t: interface_t
-{
+        const std::string   display_directory_prompt ();
+        void                alert_invalid_dir        ();
+        void                display_usage            (const std::string& prog);
 };
