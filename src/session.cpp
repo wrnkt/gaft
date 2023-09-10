@@ -8,7 +8,7 @@ session_t::session_t()
     : metadata_processor { *new metadata_processor_t() }
 {}
 
-session_t::~session_t() {}
+session_t::~session_t(){}
 
 
 console_session_t::console_session_t()
@@ -16,7 +16,9 @@ console_session_t::console_session_t()
 {
 }
 
-console_session_t::~console_session_t() {}
+console_session_t::~console_session_t()
+{
+}
 
 
 void console_session_t::prompt(int argc, char* argv[])
