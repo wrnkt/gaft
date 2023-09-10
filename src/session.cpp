@@ -19,7 +19,11 @@ console_session_t::console_session_t()
 console_session_t::~console_session_t() {}
 
 
-void console_session_t::prompt()
+void console_session_t::prompt(int argc, char* argv[])
 {
-    std::cout << "Prompting..." << std::endl;
+    if( argc != 2 ) {
+        interface.display_usage(argv[0]);
+    }
 }
+
+

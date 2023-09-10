@@ -6,6 +6,7 @@ if [ "$1" == "console" ]
         ./src/console.cpp \
         ./src/metadata_processor.cpp \
         ./src/session.cpp \
+        ./src/interface.cpp \
         -o ./bin/gaft-console -lsqlite3
 elif [ "$1" == "ui" ]
 then
