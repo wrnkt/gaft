@@ -1,5 +1,6 @@
 #include <iostream>
 #include <format>
+#include "gaft.hpp"
 #include "metadata_processor.hpp"
 
 int main(int argc, char* argv[])
