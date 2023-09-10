@@ -1,5 +1,6 @@
 #include <iostream>
 #include <format>
+
 #include "gaft.hpp"
 #include "metadata_processor.hpp"
 
@@ -9,8 +10,7 @@ int main(int argc, char* argv[])
 
     metadata_processor_t proc;
 
-    proc.add_file_ext_filter(file_ext_filter::TEXT);
-    //proc.add_file_ext_filter(file_ext_filter::AUDIO);
+    proc.add_file_search_ext(GAFT_F_EXT::TXT);
 
     path_preprocess_info_t info = proc.preprocess_info(path);
 
