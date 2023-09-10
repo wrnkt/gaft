@@ -8,7 +8,6 @@
 #include <functional>
 
 #include "gaft.hpp"
-#include "util.hpp"
 
 
 namespace fs = std::filesystem;
