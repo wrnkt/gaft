@@ -39,8 +39,12 @@ bool metadata_processor_t::remove_file_search_kind(GAFT_F_KIND kind)
 
 bool metadata_processor_t::should_process(const fs::path& f_path)
 {
-    const auto& [ext, kind] = FILE_CLASSIFICATION_MAP.at(f_path.extension());
-    if(file_search_exts.contains(ext) || file_search_kinds.contains(kind)) return true;
+    try {
+        const auto& [ext, kind] = FILE_CLASSIFICATION_MAP.at(f_path.extension());
+        if(file_search_exts.contains(ext) || file_search_kinds.contains(kind)) return true;
+    } catch (const std::out_of_range &e) {
+        return false;
+    };
     return false;
 }
 
