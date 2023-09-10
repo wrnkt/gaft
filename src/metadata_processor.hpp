@@ -28,9 +28,6 @@ struct path_preprocess_info_t
     bool is_processable() { return path_exists && is_dir; }
 };
 
-enum class file_ext_filter { TEXT, AUDIO };
-
-
 using file_filter_func = std::function<bool(const fs::path&)>;
 using file_ext_filter_func = file_filter_func;
 
@@ -43,22 +40,11 @@ class metadata_processor_t
 
         path_preprocess_info_t preprocess_info(const fs::path& dir_path);
 
-        bool remove_file_ext_filter(file_ext_filter filter);
-        bool add_file_ext_filter(file_ext_filter filter);
-
-        bool valid_file_ext(const fs::path& f_path);
 
         std::vector<file_metadata_t> get_recursive_file_metadata(const fs::path& dir_path);
 
 
     private:
-        
-        // File extension filtering
-        std::set<file_ext_filter> file_ext_filters;
-        const std::map<file_ext_filter, file_ext_filter_func> ext_filter_map;
-        static bool has_text_extension(const fs::path& f_path);
-        static bool has_audio_extension(const fs::path& f_path);
-
         // Validation
         bool path_exists(const fs::path& path);
         bool is_dir(const fs::path& dir_path);
