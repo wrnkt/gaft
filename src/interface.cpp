@@ -11,38 +11,39 @@ namespace po = boost::program_options;
 
 bool console_interface_t::init(int argc, char* argv[])
 {
+    po::options_description general;
+    general.add_options()
+        ("help,h", "view program help")
+        ("interactive,i", "start in interactive mode")
+        /*
+           ("kinds",
+           po::value<vector<string>>(&opt)->default_value(),
+           "kinds of files to include/exclude")
+           ("exts",
+           po::value<vector<string>>(&opt)->default_value(),
+           "file extensions to include/exclude")
+           */
+        ;
+
+    po::options_description hidden;
+    hidden.add_options()
+        ("search_dir", po::value<string>()->required(), "search directory")
+        ;
+
+    // NOTE: accepted on command line
+    po::options_description cmdline_options;
+    cmdline_options.add(general).add(hidden);
+
+    // NOTE: show with --help
+    po::options_description visible("OPTIONS");
+    visible.add(general);
+
+    po::positional_options_description p;
+    p.add("search_dir", -1);
+
+    po::variables_map v_map;
+
     try {
-        po::options_description general;
-        general.add_options()
-            ("help,h", "view program help")
-            ("interactive,i", "start in interactive mode")
-            /*
-            ("kinds",
-             po::value<vector<string>>(&opt)->default_value(),
-            "kinds of files to include/exclude")
-            ("exts",
-             po::value<vector<string>>(&opt)->default_value(),
-            "file extensions to include/exclude")
-            */
-        ;
-
-        po::options_description hidden;
-        hidden.add_options()
-            ("search-dir", po::value<string>(), "search directory")
-        ;
-
-        // NOTE: accepted on command line
-        po::options_description cmdline_options;
-        cmdline_options.add(general).add(hidden);
-
-        // NOTE: show with --help
-        po::options_description visible("OPTIONS");
-        visible.add(general);
-
-        po::positional_options_description p;
-        p.add("search-dir", -1);
-
-        po::variables_map v_map;
         po::store(
             po::command_line_parser(argc, argv)
                 .options(general).positional(p).run(),
@@ -50,17 +51,21 @@ bool console_interface_t::init(int argc, char* argv[])
         );
         po::notify(v_map);
 
-        if(
-            (v_map.count("help") || !v_map.count("search-dir"))
-                && !v_map.count("interactive")
-        ) {
-            display_usage(argv[0]);
-            cout << visible << endl;
-            return false;
-        }
-
     } catch (const exception& e) {
+        cout << e.what() << endl;
     }
+
+    if(
+        (v_map.count("help") || !v_map.count("search_dir"))
+        && !v_map.count("interactive")
+      ) {
+        display_usage(argv[0]);
+        cout << visible << endl;
+        return false;
+    }
+
+
+
     return false;
 }
 
