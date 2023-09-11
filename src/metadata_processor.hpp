@@ -51,9 +51,11 @@ class metadata_processor_t
 
         bool add_file_search_ext     (GAFT_F_EXT ext);
         bool remove_file_search_ext  (GAFT_F_EXT ext);
+        void clear_file_search_exts  ();
 
         bool add_file_search_kind    (GAFT_F_KIND kind);
         bool remove_file_search_kind (GAFT_F_KIND kind);
+        void clear_file_search_kinds ();
 
     private:
 

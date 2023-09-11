@@ -24,6 +24,11 @@ bool metadata_processor_t::remove_file_search_ext(GAFT_F_EXT ext)
     return file_search_exts.erase(ext);
 }
 
+void metadata_processor_t::clear_file_search_exts()
+{
+    file_search_exts.clear();
+}
+
 
 bool metadata_processor_t::add_file_search_kind(GAFT_F_KIND kind)
 {
@@ -34,6 +39,11 @@ bool metadata_processor_t::add_file_search_kind(GAFT_F_KIND kind)
 bool metadata_processor_t::remove_file_search_kind(GAFT_F_KIND kind)
 {
     return file_search_kinds.erase(kind);
+}
+
+void metadata_processor_t::clear_file_search_kinds()
+{
+    file_search_kinds.clear();
 }
 
 
