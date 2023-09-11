@@ -96,8 +96,7 @@ const std::string console_interface_t::display_directory_prompt()
 
 void console_interface_t::display_metadata_list(vector<file_metadata_t> fm_vec)
 {
-    cout << endl;
-    cout << "FILES:" << endl;
+    cout << format("FILES ({} found):", fm_vec.size()) << endl;
     cout << "----------------" << endl;
     for(auto metadata : fm_vec) {
         cout << metadata.file_name() << endl;
