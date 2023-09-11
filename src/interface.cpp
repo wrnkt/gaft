@@ -46,7 +46,7 @@ bool console_interface_t::init(int argc, char* argv[])
     try {
         po::store(
             po::command_line_parser(argc, argv)
-                .options(general).positional(p).run(),
+                .options(cmdline_options).positional(p).run(),
             v_map
         );
         po::notify(v_map);
