@@ -1,13 +1,32 @@
 #include <boost/program_options/parsers.hpp>
 #include <boost/program_options/positional_options.hpp>
+#include <boost/tokenizer.hpp>
+#include <boost/token_functions.hpp>
 #include <iostream>
 #include <format>
 #include <boost/program_options.hpp>
 
+#include "gaft.hpp"
 #include "interface.hpp"
+#include "program_options.hpp"
 
 using namespace std;
 namespace po = boost::program_options;
+
+
+interface_t::interface_t() {}
+
+interface_t::~interface_t() {}
+
+
+console_interface_t::console_interface_t()
+    : kind_flag_opt_map { KIND_FLAG_OPTIONS_MAP }
+{
+    program_options(*new console_program_options_t());
+}
+
+console_interface_t::~console_interface_t() {}
+
 
 optional<string> console_interface_t::init(int argc, char* argv[])
 {
@@ -15,10 +34,10 @@ optional<string> console_interface_t::init(int argc, char* argv[])
     general.add_options()
         ("help,h", "view program help")
         ("interactive,i", "start in interactive mode")
-        /*
            ("kinds",
-           po::value<vector<string>>(&opt)->default_value(),
-           "kinds of files to include/exclude")
+           po::value<string>()->composing(),
+           "list kinds of files to include (text, audio, image")
+        /*
            ("exts",
            po::value<vector<string>>(&opt)->default_value(),
            "file extensions to include/exclude")
@@ -64,6 +83,17 @@ optional<string> console_interface_t::init(int argc, char* argv[])
         return nullopt;
     }
 
+    if(v_map.count("kinds")) {
+        string kind_flag_str = v_map["kinds"].as<string>();
+        vector<string> kinds_str_vec = extract_kinds(kind_flag_str);
+
+        vector<string> rejected_kinds = reinterpret_cast<console_program_options_t*>(program_options_)->search_kinds(kinds_str_vec);
+
+        if(rejected_kinds.size() > 0) {
+        }
+
+    }
+
     if(v_map.count("search_dir")) {
         return optional<string>(v_map["search_dir"].as<string>());
     }
@@ -71,6 +101,17 @@ optional<string> console_interface_t::init(int argc, char* argv[])
     return nullopt;
 }
 
+
+vector<string> console_interface_t::extract_kinds(string kind_flag_str)
+{
+    vector<string> kinds_str_vec;
+    boost::char_separator<char> sep(",");
+    boost::tokenizer<boost::char_separator<char>> tokens(kind_flag_str, sep);
+    for(const auto& t : tokens) {
+        kinds_str_vec.push_back(t);
+    }
+    return kinds_str_vec;
+}
 
 
 void console_interface_t::display_usage(const std::string& prog)
