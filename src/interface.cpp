@@ -81,12 +81,11 @@ optional<string> console_interface_t::init(int argc, char* argv[])
         return nullopt;
     }
 
-    // TODO: factor out kind and ext into one function
     // TODO: factor out warning printing
     
     if(v_map.count("kind")) {
         string kind_flag_str = v_map["kind"].as<string>();
-        vector<string> kinds_str_vec = extract_kinds(kind_flag_str);
+        vector<string> kinds_str_vec = comma_sep_flag_args(kind_flag_str);
 
         vector<string> rejected_kinds = program_options_.search_kinds(kinds_str_vec);
 
@@ -101,7 +100,7 @@ optional<string> console_interface_t::init(int argc, char* argv[])
 
     if(v_map.count("ext")) {
         string ext_flag_str = v_map["ext"].as<string>();
-        vector<string> exts_str_vec = extract_kinds(ext_flag_str);
+        vector<string> exts_str_vec = comma_sep_flag_args(ext_flag_str);
 
         vector<string> rejected = program_options_.search_exts(exts_str_vec);
 
@@ -122,15 +121,15 @@ optional<string> console_interface_t::init(int argc, char* argv[])
 }
 
 
-vector<string> console_interface_t::extract_kinds(string kind_flag_str)
+vector<string> console_interface_t::comma_sep_flag_args(string flag_str)
 {
-    vector<string> kinds_str_vec;
+    vector<string> args;
     boost::char_separator<char> sep(",");
-    boost::tokenizer<boost::char_separator<char>> tokens(kind_flag_str, sep);
+    boost::tokenizer<boost::char_separator<char>> tokens(flag_str, sep);
     for(const auto& t : tokens) {
-        kinds_str_vec.push_back(t);
+        args.push_back(t);
     }
-    return kinds_str_vec;
+    return args;
 }
 
 

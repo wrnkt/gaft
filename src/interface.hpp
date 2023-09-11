@@ -36,7 +36,7 @@ class console_interface_t: public interface_t
         void                         display_usage            (const std::string& prog);
         void                         display_metadata_list    (std::vector<file_metadata_t> fm_vec);
     private:
-        std::vector<std::string>            extract_kinds     (std::string kind_flag_str);
+        std::vector<std::string>            comma_sep_flag_args     (std::string kind_flag_str);
 
         std::map<std::string, GAFT_F_KIND>  kind_flag_opt_map;
         console_program_options_t           program_options_;
