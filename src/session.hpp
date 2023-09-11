@@ -14,7 +14,12 @@ class session_t
 
         metadata_processor_t&        metadata_processor;
 
+        std::set<GAFT_F_EXT>         default_search_exts;
+        std::set<GAFT_F_KIND>        default_search_kinds;
+
     private:
+        void init_defaults();
+
         std::vector<file_metadata_t> f_metadata;
 };
 

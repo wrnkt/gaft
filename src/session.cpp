@@ -8,11 +8,29 @@
 using namespace std;
 
 session_t::session_t() 
-    : metadata_processor { *new metadata_processor_t() }
-{}
+    : metadata_processor    { *new metadata_processor_t() }
+    , default_search_exts   {
+        GAFT_F_EXT::TXT
+    }
+    , default_search_kinds  {
+        GAFT_F_KIND::TEXT
+    }
+{
+    init_defaults();
+}
 
 session_t::~session_t(){}
 
+void session_t::init_defaults()
+{
+    for(auto ext : default_search_exts) {
+        metadata_processor.add_file_search_ext(ext);
+    }
+
+    for(auto kind : default_search_kinds) {
+        metadata_processor.add_file_search_kind(kind);
+    }
+}
 
 
 console_session_t::console_session_t()
