@@ -5,7 +5,6 @@
 #include "metadata_processor.hpp"
 #include "interface.hpp"
 
-
 class session_t
 {
     public:
@@ -18,7 +17,9 @@ class session_t
         std::set<GAFT_F_KIND>        default_search_kinds;
 
     private:
-        void init_defaults();
+        void init_defaults             ();
+        void pull_settings             ();
+        void hard_update_search_kinds  ();
 
         virtual interface_t& get_interface() = 0;
 

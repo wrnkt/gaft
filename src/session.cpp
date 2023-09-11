@@ -18,6 +18,7 @@ const std::set<GAFT_F_KIND>  DEFAULT_SEARCH_KINDS {
 };
 
 
+
 session_t::session_t() 
     : metadata_processor    { *new metadata_processor_t() }
     , default_search_exts   { DEFAULT_SEARCH_EXTS  }
@@ -35,6 +36,20 @@ void session_t::init_defaults()
 
     for(auto kind : default_search_kinds)
         metadata_processor.add_file_search_kind(kind);
+}
+
+void session_t::hard_update_search_kinds()
+{
+    set<GAFT_F_KIND> interface_search_kinds = get_interface().program_options().search_kinds();
+    metadata_processor.clear_file_search_kinds();
+    for(auto kind : interface_search_kinds)
+        metadata_processor.add_file_search_kind(kind);
+
+}
+
+void session_t::pull_settings()
+{
+    hard_update_search_kinds();
 }
 
 
@@ -78,5 +93,4 @@ void console_session_t::start(int argc, char* argv[])
     interface.display_metadata_list(fm_vec);
     */
 }
-
 
