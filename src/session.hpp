@@ -12,8 +12,12 @@ class session_t
         ~session_t ();
 
         void init_defaults             ();
-        void pull_settings             ();
+        void hard_update_settings      ();
         void hard_update_search_kinds  ();
+        void hard_update_search_exts   ();
+        bool some_settings             ();
+        bool some_search_settings      ();
+        bool some_kind_settings        ();
 
         metadata_processor_t&        metadata_processor;
 

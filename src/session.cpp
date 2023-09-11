@@ -38,6 +38,21 @@ void session_t::init_defaults()
         metadata_processor.add_file_search_kind(kind);
 }
 
+bool session_t::some_search_settings()
+{
+    return !get_interface().program_options().search_kinds().empty();
+}
+
+bool session_t::some_kind_settings()
+{
+    return !get_interface().program_options().search_exts().empty();
+}
+
+bool session_t::some_settings()
+{
+    return some_search_settings() || some_kind_settings();
+}
+
 void session_t::hard_update_search_kinds()
 {
     set<GAFT_F_KIND> interface_search_kinds = get_interface().program_options().search_kinds();
@@ -47,9 +62,18 @@ void session_t::hard_update_search_kinds()
 
 }
 
-void session_t::pull_settings()
+void session_t::hard_update_search_exts()
+{
+    set<GAFT_F_EXT> interface_search_exts = get_interface().program_options().search_exts();
+    metadata_processor.clear_file_search_exts();
+    for(auto ext : interface_search_exts)
+        metadata_processor.add_file_search_ext(ext);
+}
+
+void session_t::hard_update_settings()
 {
     hard_update_search_kinds();
+    hard_update_search_exts();
 }
 
 
@@ -69,7 +93,7 @@ interface_t& console_session_t::get_interface()
 void console_session_t::start(int argc, char* argv[])
 {
     optional<string> dir_opt = interface.init(argc, argv);
-    pull_settings();
+    hard_update_settings();
 
     if(!dir_opt) {
         return;

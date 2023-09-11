@@ -34,14 +34,12 @@ optional<string> console_interface_t::init(int argc, char* argv[])
     general.add_options()
         ("help,h", "view program help")
         ("interactive,i", "start in interactive mode")
-           ("kinds",
+           ("kind",
            po::value<string>()->composing(),
-           "list kinds of files to include (text, audio, image")
-        /*
-           ("exts",
-           po::value<vector<string>>(&opt)->default_value(),
-           "file extensions to include/exclude")
-           */
+           "list kinds of files to include (text, audio, image...)")
+           ("ext",
+           po::value<string>()->composing(),
+           "file extensions to include (txt, md, mp4, ...)")
         ;
 
     po::options_description hidden;
@@ -83,20 +81,37 @@ optional<string> console_interface_t::init(int argc, char* argv[])
         return nullopt;
     }
 
-    if(v_map.count("kinds")) {
-        string kind_flag_str = v_map["kinds"].as<string>();
+    // TODO: factor out kind and ext into one function
+    // TODO: factor out warning printing
+    
+    if(v_map.count("kind")) {
+        string kind_flag_str = v_map["kind"].as<string>();
         vector<string> kinds_str_vec = extract_kinds(kind_flag_str);
 
         vector<string> rejected_kinds = program_options_.search_kinds(kinds_str_vec);
 
         if(rejected_kinds.size() > 0) {
-            cout << "[WARNING]: Unrecognized options for --kinds:";
+            cout << "[WARNING]: Unrecognized options for --kind:";
             for(auto kind : rejected_kinds) {
                 cout << format(" {}", kind);
             }
             cout << endl;
         }
+    }
 
+    if(v_map.count("ext")) {
+        string ext_flag_str = v_map["ext"].as<string>();
+        vector<string> exts_str_vec = extract_kinds(ext_flag_str);
+
+        vector<string> rejected = program_options_.search_exts(exts_str_vec);
+
+        if(rejected.size() > 0) {
+            cout << "[WARNING]: Unrecognized options for --ext:";
+            for(auto ext : rejected) {
+                cout << format(" {}", ext);
+            }
+            cout << endl;
+        }
     }
 
     if(v_map.count("search_dir")) {
