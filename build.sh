@@ -7,7 +7,8 @@ if [ "$1" == "console" ]
         ./src/metadata_processor.cpp \
         ./src/session.cpp \
         ./src/interface.cpp \
-        -o ./bin/gaft-console -lsqlite3
+        -o ./bin/gaft-console -lsqlite3 \
+        -lboost_program_options
 elif [ "$1" == "ui" ]
 then
     g++-13 -std=c++20 -ggdb \

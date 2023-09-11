@@ -1,15 +1,75 @@
+#include <boost/program_options/parsers.hpp>
+#include <boost/program_options/positional_options.hpp>
 #include <iostream>
 #include <format>
+#include <boost/program_options.hpp>
 
 #include "interface.hpp"
 
 using namespace std;
+namespace po = boost::program_options;
+
+bool console_interface_t::init(int argc, char* argv[])
+{
+    try {
+        po::options_description general;
+        general.add_options()
+            ("help,h", "view program help")
+            ("interactive,i", "start in interactive mode")
+            /*
+            ("kinds",
+             po::value<vector<string>>(&opt)->default_value(),
+            "kinds of files to include/exclude")
+            ("exts",
+             po::value<vector<string>>(&opt)->default_value(),
+            "file extensions to include/exclude")
+            */
+        ;
+
+        po::options_description hidden;
+        hidden.add_options()
+            ("search-dir", po::value<string>(), "search directory")
+        ;
+
+        // NOTE: accepted on command line
+        po::options_description cmdline_options;
+        cmdline_options.add(general).add(hidden);
+
+        // NOTE: show with --help
+        po::options_description visible("OPTIONS");
+        visible.add(general);
+
+        po::positional_options_description p;
+        p.add("search-dir", -1);
+
+        po::variables_map v_map;
+        po::store(
+            po::command_line_parser(argc, argv)
+                .options(general).positional(p).run(),
+            v_map
+        );
+        po::notify(v_map);
+
+        if(
+            (v_map.count("help") || !v_map.count("search-dir"))
+                && !v_map.count("interactive")
+        ) {
+            display_usage(argv[0]);
+            cout << visible << endl;
+            return false;
+        }
+
+    } catch (const exception& e) {
+    }
+    return false;
+}
+
 
 
 void console_interface_t::display_usage(const std::string& prog)
 {
-    cout << format("[USAGE]: {} <directory>", prog) << endl;
-    cout << format("See a flat map of your files in the given directory, tag, and categorize them.", prog) << endl;
+    cout << format("USAGE: {} [FLAGS] <directory>", prog) << endl;
+    cout << format("See a flat map of files in a given directory, tag, and categorize them.", prog) << endl;
 }
 
 void console_interface_t::alert_invalid_dir()

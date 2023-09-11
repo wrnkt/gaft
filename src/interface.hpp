@@ -15,6 +15,7 @@ class gui_interface_t: interface_t {};
 class console_interface_t: interface_t
 {
     public:
+        bool                init                     (int argc, char* argv[]);
         const std::string   display_directory_prompt ();
         void                alert_invalid_dir        ();
         void                display_usage            (const std::string& prog);
