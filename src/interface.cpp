@@ -90,6 +90,11 @@ optional<string> console_interface_t::init(int argc, char* argv[])
         vector<string> rejected_kinds = program_options_.search_kinds(kinds_str_vec);
 
         if(rejected_kinds.size() > 0) {
+            cout << "[WARNING]: Unrecognized options for --kinds:";
+            for(auto kind : rejected_kinds) {
+                cout << format(" {}", kind);
+            }
+            cout << endl;
         }
 
     }
