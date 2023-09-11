@@ -10,6 +10,6 @@
 int main(int argc, char* argv[])
 {
     console_session_t session {};
-    session.prompt(argc, argv);
+    session.start(argc, argv);
     return 0;
 }

@@ -44,7 +44,7 @@ console_session_t::console_session_t()
 console_session_t::~console_session_t() {}
 
 
-void console_session_t::prompt(int argc, char* argv[])
+void console_session_t::start(int argc, char* argv[])
 {
     if (argc <= 1) {
         interface.display_usage(argv[0]);
