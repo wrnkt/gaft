@@ -9,7 +9,7 @@
 using namespace std;
 namespace po = boost::program_options;
 
-bool console_interface_t::init(int argc, char* argv[])
+optional<string> console_interface_t::init(int argc, char* argv[])
 {
     po::options_description general;
     general.add_options()
@@ -27,7 +27,7 @@ bool console_interface_t::init(int argc, char* argv[])
 
     po::options_description hidden;
     hidden.add_options()
-        ("search_dir", po::value<string>()->required(), "search directory")
+        ("search_dir", po::value<string>(), "search directory")
         ;
 
     // NOTE: accepted on command line
@@ -61,12 +61,14 @@ bool console_interface_t::init(int argc, char* argv[])
       ) {
         display_usage(argv[0]);
         cout << visible << endl;
-        return false;
+        return nullopt;
     }
 
+    if(v_map.count("search_dir")) {
+        return optional<string>(v_map["search_dir"].as<string>());
+    }
 
-
-    return false;
+    return nullopt;
 }
 
 

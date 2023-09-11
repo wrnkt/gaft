@@ -1,4 +1,5 @@
 #include <iostream>
+#include <optional>
 #include <compare>
 
 #include "interface.hpp"
@@ -46,16 +47,16 @@ console_session_t::~console_session_t() {}
 
 void console_session_t::start(int argc, char* argv[])
 {
-    interface.init(argc, argv);
-    /*
-    if (argc <= 1) {
-        interface.display_usage(argv[0]);
-    } else {
-        string s(argv[1]);
-        if(s.compare("-h") == 0 || argc > 2) {
-            interface.display_usage(argv[0]);
-        }
+    optional<string> dir_opt = interface.init(argc, argv);
+
+    if(!dir_opt) {
+        return;
     }
+
+    auto fm_vec = metadata_processor.get_recursive_file_metadata(dir_opt.value());
+    interface.display_metadata_list(fm_vec);
+
+    /*
     std::string path_str;
     bool valid_dir = false;
     bool first_pass = true;
