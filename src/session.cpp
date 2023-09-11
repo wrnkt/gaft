@@ -9,6 +9,7 @@
 
 using namespace std;
 
+
 const std::set<GAFT_F_EXT>   DEFAULT_SEARCH_EXTS {
     GAFT_F_EXT::TXT
 };
@@ -16,7 +17,6 @@ const std::set<GAFT_F_EXT>   DEFAULT_SEARCH_EXTS {
 const std::set<GAFT_F_KIND>  DEFAULT_SEARCH_KINDS {
     GAFT_F_KIND::TEXT
 };
-
 
 
 session_t::session_t() 
@@ -69,6 +69,7 @@ interface_t& console_session_t::get_interface()
 void console_session_t::start(int argc, char* argv[])
 {
     optional<string> dir_opt = interface.init(argc, argv);
+    pull_settings();
 
     if(!dir_opt) {
         return;
@@ -76,21 +77,5 @@ void console_session_t::start(int argc, char* argv[])
 
     auto fm_vec = metadata_processor.get_recursive_file_metadata(dir_opt.value());
     interface.display_metadata_list(fm_vec);
-
-    /*
-    std::string path_str;
-    bool valid_dir = false;
-    bool first_pass = true;
-    do {
-        if (!first_pass && !valid_dir) interface.alert_invalid_dir();
-        path_str = interface.display_directory_prompt();
-        auto pp_info = metadata_processor.preprocess_info(path_str);
-        valid_dir  = pp_info.is_processable();
-        first_pass = false;
-    } while (!valid_dir);
-
-    auto fm_vec = metadata_processor.get_recursive_file_metadata(path_str);
-    interface.display_metadata_list(fm_vec);
-    */
 }
 
