@@ -21,8 +21,8 @@ interface_t::~interface_t() {}
 
 console_interface_t::console_interface_t()
     : kind_flag_opt_map { KIND_FLAG_OPTIONS_MAP }
+    , program_options_ { *new console_program_options_t() }
 {
-    program_options(*new console_program_options_t());
 }
 
 console_interface_t::~console_interface_t() {}
@@ -87,7 +87,7 @@ optional<string> console_interface_t::init(int argc, char* argv[])
         string kind_flag_str = v_map["kinds"].as<string>();
         vector<string> kinds_str_vec = extract_kinds(kind_flag_str);
 
-        vector<string> rejected_kinds = reinterpret_cast<console_program_options_t*>(program_options_)->search_kinds(kinds_str_vec);
+        vector<string> rejected_kinds = program_options_.search_kinds(kinds_str_vec);
 
         if(rejected_kinds.size() > 0) {
         }
