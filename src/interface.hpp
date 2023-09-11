@@ -18,4 +18,5 @@ class console_interface_t: interface_t
         const std::string   display_directory_prompt ();
         void                alert_invalid_dir        ();
         void                display_usage            (const std::string& prog);
+        void                display_metadata_list    (std::vector<file_metadata_t> fm_vec);
 };
