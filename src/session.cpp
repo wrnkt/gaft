@@ -39,7 +39,7 @@ void console_session_t::prompt(int argc, char* argv[])
     bool valid_dir = false;
     bool first_pass = true;
     do {
-        if (!first_pass) interface.alert_invalid_dir();
+        if (!first_pass && !valid_dir) interface.alert_invalid_dir();
         path_str = interface.display_directory_prompt();
         auto pp_info = metadata_processor.preprocess_info(path_str);
         valid_dir  = pp_info.is_processable();
