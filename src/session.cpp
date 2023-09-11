@@ -10,8 +10,8 @@ using namespace std;
 const std::set<GAFT_F_EXT>   DEFAULT_SEARCH_EXTS {
     GAFT_F_EXT::TXT
 };
-const std::set<GAFT_F_KIND>  DEFAULT_SEARCH_KINDS {
 
+const std::set<GAFT_F_KIND>  DEFAULT_SEARCH_KINDS {
     GAFT_F_KIND::TEXT
 };
 
@@ -24,17 +24,15 @@ session_t::session_t()
     init_defaults();
 }
 
-session_t::~session_t(){}
+session_t::~session_t() {}
 
 void session_t::init_defaults()
 {
-    for(auto ext : default_search_exts) {
+    for(auto ext : default_search_exts)
         metadata_processor.add_file_search_ext(ext);
-    }
 
-    for(auto kind : default_search_kinds) {
+    for(auto kind : default_search_kinds)
         metadata_processor.add_file_search_kind(kind);
-    }
 }
 
 
@@ -43,9 +41,7 @@ console_session_t::console_session_t()
 {
 }
 
-console_session_t::~console_session_t()
-{
-}
+console_session_t::~console_session_t() {}
 
 
 void console_session_t::prompt(int argc, char* argv[])
