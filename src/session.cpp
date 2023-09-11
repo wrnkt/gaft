@@ -35,16 +35,19 @@ void console_session_t::prompt(int argc, char* argv[])
             interface.display_usage(argv[0]);
         }
     }
+    std::string path_str;
     bool valid_dir = false;
     bool first_pass = true;
     do {
         if (!first_pass) interface.alert_invalid_dir();
-        std::string path_str = interface.display_directory_prompt();
+        path_str = interface.display_directory_prompt();
         auto pp_info = metadata_processor.preprocess_info(path_str);
         valid_dir  = pp_info.is_processable();
         first_pass = false;
     } while (!valid_dir);
 
+    auto fm_vec = metadata_processor.get_recursive_file_metadata(path_str);
+    interface.display_metadata_list(fm_vec);
 }
 
 
