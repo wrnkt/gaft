@@ -13,11 +13,19 @@
 namespace fs = std::filesystem;
 
 
-struct file_metadata_t
+class file_metadata_t
 {
-    fs::path file_path;
-    std::string file_name;
-    uintmax_t file_size;
+    fs::path file_path_;
+    uintmax_t file_size_;
+
+    public:
+        fs::path file_path() { return file_path_; };
+        void file_path(fs::path f_path) { file_path_ = f_path; };
+
+        uintmax_t file_size() { return file_size_; };
+        void file_size(uintmax_t file_size) { file_size_ = file_size; };
+
+        const std::string file_name() { return file_path_.filename(); };
 };
 
 struct path_preprocess_info_t

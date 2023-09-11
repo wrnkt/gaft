@@ -87,9 +87,9 @@ std::vector<file_metadata_t> metadata_processor_t::get_recursive_file_metadata(c
 file_metadata_t metadata_processor_t::get_metadata(const fs::path& f_path)
 {
     file_metadata_t fm {};
-    if(f_path.has_filename()) {
-        fm.file_name = f_path.filename();
-    }
+    fm.file_path(f_path);
+    uintmax_t f_size = compute_file_size(fm.file_path());
+    fm.file_size(f_size);
     return fm;
 }
 
