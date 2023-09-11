@@ -31,22 +31,10 @@ class program_options_t
 };
 
 
-// ----------------------------------------
-// TODO: generate from definitions in gaft.h
 
 const std::map<std::string, GAFT_F_KIND> KIND_FLAG_OPTIONS_MAP {
     { "text", GAFT_F_KIND::TEXT },
     { "audio", GAFT_F_KIND::AUDIO },
-    { "unknown", GAFT_F_KIND::UNKNOWN },
-};
-
-const std::map<std::string, GAFT_F_EXT> EXT_FLAG_OPTIONS_MAP {
-    { "unknown", GAFT_F_EXT::UNKNOWN },
-    { "md", GAFT_F_EXT::MD },
-    { "mp3", GAFT_F_EXT::MP3 },
-    { "wav", GAFT_F_EXT::WAV },
-    { "mp4", GAFT_F_EXT::MP4 },
-    { "txt", GAFT_F_EXT::TXT },
 };
 
 class console_program_options_t : public program_options_t {
@@ -70,10 +58,13 @@ class console_program_options_t : public program_options_t {
 
         std::vector<std::string> search_exts(std::vector<std::string> exts)
         {
+            std::string period = ".";
+            std::string* built_ext;
             std::vector<std::string> rejected_exts {};
             for(std::string ext_str : exts) {
+                built_ext = &(period.append(ext_str));
                 try {
-                    GAFT_F_EXT ext = EXT_FLAG_OPTIONS_MAP.at(ext_str);
+                    GAFT_F_EXT ext = FILE_CLASSIFICATION_MAP.at(*built_ext).ext;
                     add_search_ext(ext);
                 } catch (std::out_of_range& e) {
                     rejected_exts.push_back(ext_str);
