@@ -19,9 +19,9 @@ class interface_t
     private:
 };
 
-class gui_interface_t: interface_t {};
+class gui_interface_t: public interface_t {};
 
-class console_interface_t: interface_t
+class console_interface_t: public interface_t
 {
     public:
         console_interface_t();

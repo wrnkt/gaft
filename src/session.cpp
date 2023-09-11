@@ -2,6 +2,7 @@
 #include <optional>
 #include <compare>
 
+#include "gaft.hpp"
 #include "interface.hpp"
 #include "metadata_processor.hpp"
 #include "session.hpp"
@@ -44,6 +45,11 @@ console_session_t::console_session_t()
 
 console_session_t::~console_session_t() {}
 
+
+interface_t& console_session_t::get_interface()
+{
+    return interface;
+}
 
 void console_session_t::start(int argc, char* argv[])
 {

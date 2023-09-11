@@ -20,6 +20,8 @@ class session_t
     private:
         void init_defaults();
 
+        virtual interface_t& get_interface() = 0;
+
         std::vector<file_metadata_t> f_metadata;
 };
 
@@ -35,5 +37,6 @@ class console_session_t : session_t
         console_interface_t& interface;
 
     private:
+        interface_t& get_interface();
 };
 
