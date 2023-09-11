@@ -7,14 +7,19 @@
 
 using namespace std;
 
+const std::set<GAFT_F_EXT>   DEFAULT_SEARCH_EXTS {
+    GAFT_F_EXT::TXT
+};
+const std::set<GAFT_F_KIND>  DEFAULT_SEARCH_KINDS {
+
+    GAFT_F_KIND::TEXT
+};
+
+
 session_t::session_t() 
     : metadata_processor    { *new metadata_processor_t() }
-    , default_search_exts   {
-        GAFT_F_EXT::TXT
-    }
-    , default_search_kinds  {
-        GAFT_F_KIND::TEXT
-    }
+    , default_search_exts   { DEFAULT_SEARCH_EXTS  }
+    , default_search_kinds  { DEFAULT_SEARCH_KINDS }
 {
     init_defaults();
 }
