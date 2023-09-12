@@ -6,3 +6,41 @@ project(
     DESCRIPTION "Library, GUI, and CLI to flatten and tag file trees."
     LANGUAGES CXX
 )
+
+# if main project
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    set(CMAKE_CXX_STANDARD 20)
+    set(CMAKE_CXX_EXTENSIONS OFF)
+
+    set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
+    find_package(Doxygen)
+    if(DOXYGEN_FOUND)
+        add_subdirectory(docs)
+    else()
+        message(STATUS "Doxygen not found. Not building Docs.")
+    endif()
+endif()
+
+# dependencies
+include(FetchContent)
+
+find_package(Boost REQUIRED)
+
+FetchContent_Declare(
+    raylib
+    GIT_REPOSITORY https://github.com/raysan5/raylib.git
+    GIT_TAG 4.5.0
+)
+FetchContent_MakeAvailable(raylib)
+
+FetchContent_Declare(
+    raygui
+    GIT_REPOSITORY https://github.com/raysan5/raygui.git
+    GIT_TAG 4.0
+)
+FetchContent_MakeAvailable(raygui)
+
+
+add_subdirectory(src)
+add_subdirectory(apps)
