@@ -29,18 +29,19 @@ find_package(Boost REQUIRED)
 
 FetchContent_Declare(
     raylib
-    GIT_REPOSITORY https://github.com/raysan5/raylib.git
-    GIT_TAG 4.5.0
+    GIT_REPOSITORY https://github.com/raysan5/raylib
+    GIT_TAG "master"
+    GIT_PROGRESS TRUE
 )
-FetchContent_MakeAvailable(raylib)
 
 FetchContent_Declare(
     raygui
-    GIT_REPOSITORY https://github.com/raysan5/raygui.git
-    GIT_TAG 4.0
+    GIT_REPOSITORY https://github.com/raysan5/raygui
+    GIT_TAG "master"
+    GIT_PROGRESS TRUE
 )
-FetchContent_MakeAvailable(raygui)
 
+FetchContent_MakeAvailable(raygui raylib)
 
 add_subdirectory(src)
 add_subdirectory(apps)
