@@ -1,9 +1,9 @@
 # headers must be listed in add_library to show up in IDEs
-set(HEADER_LIST "${GAFT_SOURCE_DIR}/include/gaft/*.hpp")
+file(GLOB HEADER_LIST CONFIGURE_DEPENDS "${GAFT_SOURCE_DIR}/include/gaft/*.hpp")
 
 add_library(gaft_library
             session.cpp interface.cpp metadata_processor.cpp
-            ${HEADER_LIST)
+            ${HEADER_LIST})
 
 target_include_directories(gaft_library PUBLIC ../include)
 
