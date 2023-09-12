@@ -1,5 +1,5 @@
-#include "metadata_processor.hpp"
-#include "gaft.hpp"
+#include "gaft/metadata_processor.hpp"
+#include "gaft/gaft.hpp"
 
 #include <string>
 #include <iostream>

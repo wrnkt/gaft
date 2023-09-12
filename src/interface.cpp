@@ -6,9 +6,9 @@
 #include <format>
 #include <boost/program_options.hpp>
 
-#include "gaft.hpp"
-#include "interface.hpp"
-#include "program_options.hpp"
+#include "gaft/gaft.hpp"
+#include "gaft/interface.hpp"
+#include "gaft/program_options.hpp"
 
 using namespace std;
 namespace po = boost::program_options;

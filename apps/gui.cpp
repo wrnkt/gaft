@@ -1,8 +1,8 @@
 #include <iostream>
 #include <format>
 
-#include "gaft.hpp"
-#include "session.hpp"
+#include "gaft/gaft.hpp"
+#include "gaft/session.hpp"
 
 int main(void)
 {

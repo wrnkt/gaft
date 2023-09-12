@@ -2,10 +2,10 @@
 #include <optional>
 #include <compare>
 
-#include "gaft.hpp"
-#include "interface.hpp"
-#include "metadata_processor.hpp"
-#include "session.hpp"
+#include "gaft/gaft.hpp"
+#include "gaft/interface.hpp"
+#include "gaft/metadata_processor.hpp"
+#include "gaft/session.hpp"
 
 using namespace std;
 

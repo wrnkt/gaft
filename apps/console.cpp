@@ -1,11 +1,7 @@
 #include <iostream>
 #include <format>
 
-#include "gaft.hpp"
-#include "session.hpp"
-#include "metadata_processor.hpp"
-
-
+#include "gaft/session.hpp"
 
 int main(int argc, char* argv[])
 {
