@@ -12,3 +12,8 @@ target_link_libraries(gaft_library PRIVATE raylib::raylib)
 target_link_libraries(gaft_library PRIVATE raygui::raygui)
 
 target_compile_features(gaft_library PUBLIC cxx_std_20)
+
+source_group(
+    TREE "${PROJECT_SOURCE_DIR}/include"
+    PREFIX "Header Files"
+    FILES ${HEADER_LIST})
