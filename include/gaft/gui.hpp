@@ -1,4 +1,1 @@
 #pragma once
-
-#define RAYLIB_IMPLEMENTATION
-#define RAYGUI_IMPLEMENTATION

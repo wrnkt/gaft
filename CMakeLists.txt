@@ -41,6 +41,7 @@ FetchContent_Declare(raylib
 )
 
 FetchContent_MakeAvailable(raylib)
+find_package(raylib)
 
 add_subdirectory(src)
 add_subdirectory(apps)
