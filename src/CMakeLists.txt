@@ -9,7 +9,6 @@ target_include_directories(gaft_library PUBLIC ../include)
 
 target_link_libraries(gaft_library PRIVATE Boost::boost)
 target_link_libraries(gaft_library PRIVATE raylib)
-target_link_libraries(gaft_library PRIVATE raygui)
 
 target_compile_features(gaft_library PUBLIC cxx_std_20)
 
