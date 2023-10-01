@@ -2,7 +2,7 @@
 file(GLOB HEADER_LIST CONFIGURE_DEPENDS "${GAFT_SOURCE_DIR}/include/gaft/*.hpp")
 
 add_library(gaft_library
-            session.cpp interface.cpp metadata_processor.cpp
+            metadata_processor.cpp interface.cpp session.cpp
             ${HEADER_LIST})
 
 target_include_directories(gaft_library PUBLIC ../include)
