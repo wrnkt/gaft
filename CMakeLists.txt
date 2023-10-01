@@ -25,23 +25,22 @@ endif()
 # dependencies
 include(FetchContent)
 
-find_package(Boost REQUIRED)
-
 FetchContent_Declare(
-    raylib
+  Boost
+  GIT_REPOSITORY https://github.com/boostorg/boost.git
+  GIT_TAG boost-1.83.0
+)
+
+FetchContent_MakeAvailable(Boost)
+find_package(Boost)
+
+FetchContent_Declare(raylib
     GIT_REPOSITORY https://github.com/raysan5/raylib
     GIT_TAG "master"
     GIT_PROGRESS TRUE
 )
 
-FetchContent_Declare(
-    raygui
-    GIT_REPOSITORY https://github.com/raysan5/raygui
-    GIT_TAG "master"
-    GIT_PROGRESS TRUE
-)
-
-FetchContent_MakeAvailable(raygui raylib)
+FetchContent_MakeAvailable(raylib)
 
 add_subdirectory(src)
 add_subdirectory(apps)
