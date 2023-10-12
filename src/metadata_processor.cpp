@@ -5,6 +5,7 @@
 #include <iostream>
 #include <filesystem>
 #include <vector>
+#include <optional>
 #include <algorithm>
 #include <iterator>
 
@@ -83,15 +84,18 @@ bool metadata_processor_t::is_dir(const fs::path& dir_path)
 }
 
 
-std::vector<file_metadata_t> metadata_processor_t::get_recursive_file_metadata(const fs::path& dir_path)
+std::optional<std::vector<file_metadata_t>> metadata_processor_t::get_recursive_file_metadata(const fs::path& dir_path)
 {
+    if( !(path_exists(dir_path) && is_dir(dir_path)) ) {
+        return std::nullopt;
+    }
     std::vector<file_metadata_t> fm_vec {};
     for(fs::path f_path : fs::recursive_directory_iterator(dir_path)) {
         if(is_processable(f_path) && should_process(f_path)) {
             fm_vec.push_back(get_metadata(f_path));
         }
     }
-    return fm_vec;
+    return std::make_optional(fm_vec);
 }
 
 file_metadata_t metadata_processor_t::get_metadata(const fs::path& f_path)

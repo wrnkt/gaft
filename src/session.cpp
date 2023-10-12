@@ -95,11 +95,15 @@ void console_session_t::start(int argc, char* argv[])
     optional<string> dir_opt = interface.init(argc, argv);
     hard_update_settings();
 
-    if(!dir_opt) {
+    if(!dir_opt) return;
+
+    auto fm_vec_opt = metadata_processor.get_recursive_file_metadata(dir_opt.value());
+
+    if( !fm_vec_opt ) {
+        interface.alert_invalid_dir();
         return;
     }
 
-    auto fm_vec = metadata_processor.get_recursive_file_metadata(dir_opt.value());
-    interface.display_metadata_list(fm_vec);
+    interface.display_metadata_list(fm_vec_opt.value());
 }
 

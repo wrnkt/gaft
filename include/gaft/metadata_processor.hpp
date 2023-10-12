@@ -4,6 +4,7 @@
 #include <string>
 #include <filesystem>
 #include <vector>
+#include <optional>
 #include <set>
 #include <functional>
 
@@ -47,7 +48,7 @@ class metadata_processor_t
 
         path_preprocess_info_t preprocess_info (const fs::path& dir_path);
 
-        std::vector<file_metadata_t> get_recursive_file_metadata (const fs::path& dir_path);
+        std::optional<std::vector<file_metadata_t>> get_recursive_file_metadata (const fs::path& dir_path);
 
         bool add_file_search_ext     (GAFT_F_EXT ext);
         bool remove_file_search_ext  (GAFT_F_EXT ext);
