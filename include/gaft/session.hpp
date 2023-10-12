@@ -31,11 +31,11 @@ class session_t
         std::vector<file_metadata_t> f_metadata;
 };
 
-class console_session_t : session_t
+class console_interactive_session_t : session_t
 {
     public:
-        console_session_t  ();
-        ~console_session_t ();
+        console_interactive_session_t  ();
+        ~console_interactive_session_t ();
 
         void start         (int argc, char* argv[]);
         void log_dir_info  (const std::string& f_path_str);
