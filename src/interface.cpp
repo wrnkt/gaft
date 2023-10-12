@@ -19,16 +19,16 @@ interface_t::interface_t() {}
 interface_t::~interface_t() {}
 
 
-console_interface_t::console_interface_t()
+console_interactive_interface_t::console_interactive_interface_t()
     : kind_flag_opt_map { KIND_FLAG_OPTIONS_MAP }
     , program_options_ { *new console_program_options_t() }
 {
 }
 
-console_interface_t::~console_interface_t() {}
+console_interactive_interface_t::~console_interactive_interface_t() {}
 
 
-optional<string> console_interface_t::init(int argc, char* argv[])
+optional<string> console_interactive_interface_t::init(int argc, char* argv[])
 {
     po::options_description general;
     general.add_options()
@@ -121,7 +121,7 @@ optional<string> console_interface_t::init(int argc, char* argv[])
 }
 
 
-vector<string> console_interface_t::comma_sep_flag_args(string flag_str)
+vector<string> console_interactive_interface_t::comma_sep_flag_args(string flag_str)
 {
     vector<string> args;
     boost::char_separator<char> sep(",");
@@ -133,18 +133,18 @@ vector<string> console_interface_t::comma_sep_flag_args(string flag_str)
 }
 
 
-void console_interface_t::display_usage(const std::string& prog)
+void console_interactive_interface_t::display_usage(const std::string& prog)
 {
     cout << format("USAGE: {} [FLAGS] <directory>", prog) << endl;
     cout << format("See a flat map of files in a given directory, tag, and categorize them.", prog) << endl;
 }
 
-void console_interface_t::alert_invalid_dir()
+void console_interactive_interface_t::alert_invalid_dir()
 {
     cout << "[ERROR]: Invalid directory." << endl;
 }
 
-const std::string console_interface_t::display_directory_prompt()
+const std::string console_interactive_interface_t::display_directory_prompt()
 {
     string input {};
     cout << endl;
@@ -154,7 +154,7 @@ const std::string console_interface_t::display_directory_prompt()
     return input;
 }
 
-void console_interface_t::display_metadata_list(vector<file_metadata_t> fm_vec)
+void console_interactive_interface_t::display_metadata_list(vector<file_metadata_t> fm_vec)
 {
     cout << format("FILES ({} found):", fm_vec.size()) << endl;
     cout << "----------------" << endl;

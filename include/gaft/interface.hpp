@@ -21,11 +21,11 @@ class interface_t
 
 class gui_interface_t: public interface_t {};
 
-class console_interface_t: public interface_t
+class console_interactive_interface_t: public interface_t
 {
     public:
-        console_interface_t();
-        ~console_interface_t();
+        console_interactive_interface_t();
+        ~console_interactive_interface_t();
 
         program_options_t program_options() { return program_options_; };
         void program_options(console_program_options_t options) { program_options_ = options; };
@@ -35,6 +35,7 @@ class console_interface_t: public interface_t
         void                         alert_invalid_dir        ();
         void                         display_usage            (const std::string& prog);
         void                         display_metadata_list    (std::vector<file_metadata_t> fm_vec);
+
     private:
         std::vector<std::string>            comma_sep_flag_args     (std::string kind_flag_str);
 

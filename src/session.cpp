@@ -78,7 +78,7 @@ void session_t::hard_update_settings()
 
 
 console_session_t::console_session_t()
-    : interface { *new console_interface_t() }
+    : interface { *new console_interactive_interface_t() }
 {
 }
 

@@ -40,7 +40,7 @@ class console_session_t : session_t
         void start         (int argc, char* argv[]);
         void log_dir_info  (const std::string& f_path_str);
 
-        console_interface_t& interface;
+        console_interactive_interface_t& interface;
 
     private:
         interface_t& get_interface();
