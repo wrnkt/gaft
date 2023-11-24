@@ -9,6 +9,7 @@
 #include <functional>
 
 #include "gaft.hpp"
+#include "program_options.hpp"
 
 
 namespace fs = std::filesystem;
@@ -46,31 +47,18 @@ class metadata_processor_t
         metadata_processor_t();
         ~metadata_processor_t();
 
-        path_preprocess_info_t preprocess_info (const fs::path& dir_path);
+        path_preprocess_info_t preprocess_info         (const fs::path& dir_path);
 
-        std::optional<std::vector<file_metadata_t>> get_recursive_file_metadata (const fs::path& dir_path);
-
-        bool add_file_search_ext     (GAFT_F_EXT ext);
-        bool remove_file_search_ext  (GAFT_F_EXT ext);
-        void clear_file_search_exts  ();
-
-        bool add_file_search_kind    (GAFT_F_KIND kind);
-        bool remove_file_search_kind (GAFT_F_KIND kind);
-        void clear_file_search_kinds ();
+        std::optional<std::vector<file_metadata_t>>
+        get_recursive_file_metadata                    (const fs::path& dir_path, file_search_opts_t opts);
 
     private:
-
-        std::set<GAFT_F_EXT>  file_search_exts {};
-        std::set<GAFT_F_KIND> file_search_kinds {};
-
         bool path_exists     (const fs::path& path);
         bool is_dir          (const fs::path& dir_path);
         bool is_processable  (const fs::path& f_path);
-        bool should_process  (const fs::path& f_path);
-
+        bool should_process  (const fs::path& f_path, file_search_opts_t opts);
 
         file_metadata_t get_metadata      (const fs::path& f_path);
         uintmax_t       compute_file_size (const fs::path& f_path);
-
 };
 
