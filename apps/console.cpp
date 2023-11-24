@@ -5,7 +5,7 @@
 
 int main(int argc, char* argv[])
 {
-    console_interactive_session_t session {};
-    session.start(argc, argv);
-    return 0;
+    console_session_t session {};
+    int exit_code = session.start(argc, argv);
+    return exit_code;
 }
