@@ -73,7 +73,10 @@ void console_interactive_session_t::start(int argc, char* argv[])
 
     if(!dir_opt) return;
 
-    auto fm_vec_opt = metadata_processor.get_recursive_file_metadata(dir_opt.value());
+    auto fm_vec_opt = metadata_processor.get_recursive_file_metadata(
+                            dir_opt.value(),
+                            get_interface().program_options().file_search_opts()
+                      );
 
     if( !fm_vec_opt ) {
         interface.alert_invalid_dir();
