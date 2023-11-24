@@ -46,3 +46,12 @@ class console_interactive_session_t : session_t
         interface_t& get_interface();
 };
 
+class console_session_t : session_t
+{
+    public:
+        console_session_t    ();
+        ~console_session_t   ();
+
+        int start            (int argc, char* argv[]);
+};
+

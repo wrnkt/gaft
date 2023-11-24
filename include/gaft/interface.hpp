@@ -42,3 +42,14 @@ class console_interactive_interface_t: public interface_t
         std::map<std::string, GAFT_F_KIND>  kind_flag_opt_map;
         console_program_options_t           program_options_;
 };
+
+
+class console_interface_t : interface_t
+{
+    public:
+        console_interface_t();
+        ~console_interface_t();
+
+        virtual program_options_t program_options() = 0;
+    private:
+};

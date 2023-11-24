@@ -107,3 +107,7 @@ void console_interactive_session_t::start(int argc, char* argv[])
     interface.display_metadata_list(fm_vec_opt.value());
 }
 
+int console_session_t::start(int argc, char* argv[])
+{
+    return 0;
+}
