@@ -32,10 +32,10 @@ session_t::~session_t() {}
 void session_t::init_defaults()
 {
     for(auto ext : default_search_exts)
-        metadata_processor.add_file_search_ext(ext);
+        get_interface().program_options().add_search_ext(ext);
 
     for(auto kind : default_search_kinds)
-        metadata_processor.add_file_search_kind(kind);
+        get_interface().program_options().add_search_kind(kind);
 }
 
 bool session_t::some_search_settings()
