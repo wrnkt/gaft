@@ -17,8 +17,9 @@ namespace fs = std::filesystem;
 
 class file_metadata_t
 {
-    fs::path file_path_;
-    uintmax_t file_size_;
+    private:
+        fs::path file_path_;
+        uintmax_t file_size_;
 
     public:
         fs::path file_path() { return file_path_; };
