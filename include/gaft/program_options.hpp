@@ -4,10 +4,11 @@
 #include <stdexcept>
 #include <string>
 #include <optional>
+#include <vector>
 #include <format>
+#include <set>
 
 #include "gaft.hpp"
-#include "metadata_processor.hpp"
 
 
 struct file_search_opts_t {
