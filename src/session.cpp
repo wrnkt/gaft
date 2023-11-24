@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 #include <optional>
 #include <compare>
 
@@ -19,8 +20,8 @@ const std::set<GAFT_F_KIND>  DEFAULT_SEARCH_KINDS {
 };
 
 
-session_t::session_t() 
-    : metadata_processor    { *new metadata_processor_t() }
+session_t::session_t() :
+      metadata_processor { std::make_unique<metadata_processor_t>() }
     , default_search_exts   { DEFAULT_SEARCH_EXTS  }
     , default_search_kinds  { DEFAULT_SEARCH_KINDS }
 {
@@ -28,6 +29,7 @@ session_t::session_t()
 }
 
 session_t::~session_t() {}
+
 
 void session_t::init_defaults()
 {
@@ -76,7 +78,7 @@ void console_interactive_session_t::start(int argc, char* argv[])
 
     if(!dir_opt) return;
 
-    auto fm_vec_opt = metadata_processor.get_recursive_file_metadata(
+    auto fm_vec_opt = metadata_processor->get_recursive_file_metadata(
                             dir_opt.value(),
                             get_interface().program_options().file_search_opts()
                       );

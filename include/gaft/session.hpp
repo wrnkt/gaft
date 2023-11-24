@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <vector>
 
 #include "metadata_processor.hpp"
@@ -16,10 +17,10 @@ class session_t
         bool some_search_settings      ();
         bool some_kind_settings        ();
 
-        metadata_processor_t&        metadata_processor;
-
         std::set<GAFT_F_EXT>         default_search_exts;
         std::set<GAFT_F_KIND>        default_search_kinds;
+
+        std::unique_ptr<metadata_processor_t> metadata_processor;
 
     private:
 
