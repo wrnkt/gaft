@@ -31,11 +31,14 @@ session_t::~session_t() {}
 
 void session_t::init_defaults()
 {
-    for(auto ext : default_search_exts)
-        get_interface().program_options().add_search_ext(ext);
-
-    for(auto kind : default_search_kinds)
-        get_interface().program_options().add_search_kind(kind);
+    // WARN: calling virtual get_interface when initializing session defaults.
+    // Needs to be a reference to an interface before calling init_defaults.
+    
+    // for(auto ext : default_search_exts)
+    //     //get_interface().program_options().add_search_ext(ext);
+    //
+    // for(auto kind : default_search_kinds)
+    //     get_interface().program_options().add_search_kind(kind);
 }
 
 bool session_t::some_search_settings()
@@ -64,12 +67,12 @@ console_interactive_session_t::~console_interactive_session_t() {}
 
 interface_t& console_interactive_session_t::get_interface()
 {
-    return interface;
+    return this->interface;
 }
 
 void console_interactive_session_t::start(int argc, char* argv[])
 {
-    optional<string> dir_opt = interface.init(argc, argv);
+    optional<string> dir_opt = this->interface.init(argc, argv);
 
     if(!dir_opt) return;
 
