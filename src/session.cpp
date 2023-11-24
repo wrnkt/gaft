@@ -31,11 +31,14 @@ session_t::~session_t() {}
 
 void session_t::init_defaults()
 {
-    for(auto ext : default_search_exts)
-        metadata_processor.add_file_search_ext(ext);
-
-    for(auto kind : default_search_kinds)
-        metadata_processor.add_file_search_kind(kind);
+    // WARN: calling virtual get_interface when initializing session defaults.
+    // Needs to be a reference to an interface before calling init_defaults.
+    
+    // for(auto ext : default_search_exts)
+    //     //get_interface().program_options().add_search_ext(ext);
+    //
+    // for(auto kind : default_search_kinds)
+    //     get_interface().program_options().add_search_kind(kind);
 }
 
 bool session_t::some_search_settings()
@@ -53,29 +56,6 @@ bool session_t::some_settings()
     return some_search_settings() || some_kind_settings();
 }
 
-void session_t::hard_update_search_kinds()
-{
-    set<GAFT_F_KIND> interface_search_kinds = get_interface().program_options().search_kinds();
-    metadata_processor.clear_file_search_kinds();
-    for(auto kind : interface_search_kinds)
-        metadata_processor.add_file_search_kind(kind);
-
-}
-
-void session_t::hard_update_search_exts()
-{
-    set<GAFT_F_EXT> interface_search_exts = get_interface().program_options().search_exts();
-    metadata_processor.clear_file_search_exts();
-    for(auto ext : interface_search_exts)
-        metadata_processor.add_file_search_ext(ext);
-}
-
-void session_t::hard_update_settings()
-{
-    hard_update_search_kinds();
-    hard_update_search_exts();
-}
-
 
 console_interactive_session_t::console_interactive_session_t()
     : interface { *new console_interactive_interface_t() }
@@ -87,17 +67,19 @@ console_interactive_session_t::~console_interactive_session_t() {}
 
 interface_t& console_interactive_session_t::get_interface()
 {
-    return interface;
+    return this->interface;
 }
 
 void console_interactive_session_t::start(int argc, char* argv[])
 {
-    optional<string> dir_opt = interface.init(argc, argv);
-    hard_update_settings();
+    optional<string> dir_opt = this->interface.init(argc, argv);
 
     if(!dir_opt) return;
 
-    auto fm_vec_opt = metadata_processor.get_recursive_file_metadata(dir_opt.value());
+    auto fm_vec_opt = metadata_processor.get_recursive_file_metadata(
+                            dir_opt.value(),
+                            get_interface().program_options().file_search_opts()
+                      );
 
     if( !fm_vec_opt ) {
         interface.alert_invalid_dir();

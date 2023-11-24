@@ -4,10 +4,17 @@
 #include <stdexcept>
 #include <string>
 #include <optional>
+#include <vector>
 #include <format>
+#include <set>
 
 #include "gaft.hpp"
-#include "metadata_processor.hpp"
+
+
+struct file_search_opts_t {
+    std::set<GAFT_F_KIND> _kinds {};
+    std::set<GAFT_F_EXT>  _exts {};
+};
 
 class program_options_t
 {
@@ -15,19 +22,20 @@ class program_options_t
         program_options_t() {}
         ~program_options_t() {}
 
-        void search_kinds(std::set<GAFT_F_KIND> kinds) { search_kinds_ = kinds; };
-        std::set<GAFT_F_KIND> search_kinds() { return search_kinds_; };
-        void add_search_kind(GAFT_F_KIND kind) { search_kinds_.insert(kind); };
-        void remove_search_kind(GAFT_F_KIND kind) { search_kinds_.erase(kind); };
+        void search_kinds(std::set<GAFT_F_KIND> kinds) { this->file_search_opts()._kinds = kinds; };
+        std::set<GAFT_F_KIND> search_kinds() { return this->_file_search_opts._kinds; };
+        void add_search_kind(GAFT_F_KIND kind) { this->_file_search_opts._kinds.insert(kind); };
+        size_t remove_search_kind(GAFT_F_KIND kind) { return this->_file_search_opts._kinds.erase(kind); };
 
-        void search_exts(std::set<GAFT_F_EXT> exts) { search_exts_ = exts; };
-        std::set<GAFT_F_EXT> search_exts() { return search_exts_; };
-        void add_search_ext(GAFT_F_EXT ext) { search_exts_.insert(ext); };
-        void remove_search_ext(GAFT_F_EXT ext) { search_exts_.erase(ext); };
+        void search_exts(std::set<GAFT_F_EXT> exts) { this->_file_search_opts._exts = exts; };
+        std::set<GAFT_F_EXT> search_exts() { return this->_file_search_opts._exts; };
+        void add_search_ext(GAFT_F_EXT ext) { this->_file_search_opts._exts.insert(ext); };
+        size_t remove_search_ext(GAFT_F_EXT ext) { return this->_file_search_opts._exts.erase(ext); };
+
+        file_search_opts_t file_search_opts() { return this->_file_search_opts; };
 
     private:
-        std::set<GAFT_F_KIND> search_kinds_ {};
-        std::set<GAFT_F_EXT> search_exts_ {};
+        file_search_opts_t _file_search_opts {};
 };
 
 
