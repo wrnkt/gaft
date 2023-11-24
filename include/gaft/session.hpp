@@ -22,9 +22,9 @@ class session_t
 
         std::unique_ptr<metadata_processor_t> metadata_processor;
 
-    private:
+        std::shared_ptr<interface_t> interface;
 
-        virtual interface_t& get_interface() = 0;
+    private:
 
         std::vector<file_metadata_t> f_metadata;
 };
@@ -38,10 +38,8 @@ class console_interactive_session_t : session_t
         void start         (int argc, char* argv[]);
         void log_dir_info  (const std::string& f_path_str);
 
-        console_interactive_interface_t& interface;
-
     private:
-        interface_t& get_interface();
+        std::shared_ptr<console_interactive_interface_t> get_interface();
 };
 
 class console_session_t : session_t

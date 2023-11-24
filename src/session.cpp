@@ -25,7 +25,7 @@ session_t::session_t() :
     , default_search_exts   { DEFAULT_SEARCH_EXTS  }
     , default_search_kinds  { DEFAULT_SEARCH_KINDS }
 {
-    init_defaults();
+    //init_defaults();
 }
 
 session_t::~session_t() {}
@@ -35,6 +35,7 @@ void session_t::init_defaults()
 {
     // WARN: calling virtual get_interface when initializing session defaults.
     // Needs to be a reference to an interface before calling init_defaults.
+    // TODO: program options should be shared and held by the session
     
     // for(auto ext : default_search_exts)
     //     //get_interface().program_options().add_search_ext(ext);
@@ -45,12 +46,12 @@ void session_t::init_defaults()
 
 bool session_t::some_search_settings()
 {
-    return !get_interface().program_options().search_kinds().empty();
+    return !this->interface->program_options().search_kinds().empty();
 }
 
 bool session_t::some_kind_settings()
 {
-    return !get_interface().program_options().search_exts().empty();
+    return !this->interface->program_options().search_exts().empty();
 }
 
 bool session_t::some_settings()
@@ -60,35 +61,35 @@ bool session_t::some_settings()
 
 
 console_interactive_session_t::console_interactive_session_t()
-    : interface { *new console_interactive_interface_t() }
 {
+    interface = std::make_unique<console_interactive_interface_t>();
 }
 
 console_interactive_session_t::~console_interactive_session_t() {}
 
 
-interface_t& console_interactive_session_t::get_interface()
+std::shared_ptr<console_interactive_interface_t> console_interactive_session_t::get_interface()
 {
-    return this->interface;
+    return std::static_pointer_cast<console_interactive_interface_t>(this->interface);
 }
 
 void console_interactive_session_t::start(int argc, char* argv[])
 {
-    optional<string> dir_opt = this->interface.init(argc, argv);
+    optional<string> dir_opt = get_interface()->init(argc, argv);
 
     if(!dir_opt) return;
 
     auto fm_vec_opt = metadata_processor->get_recursive_file_metadata(
                             dir_opt.value(),
-                            get_interface().program_options().file_search_opts()
+                            this->interface->program_options().file_search_opts()
                       );
 
     if( !fm_vec_opt ) {
-        interface.alert_invalid_dir();
+        get_interface()->alert_invalid_dir();
         return;
     }
 
-    interface.display_metadata_list(fm_vec_opt.value());
+    get_interface()->display_metadata_list(fm_vec_opt.value());
 }
 
 int console_session_t::start(int argc, char* argv[])
