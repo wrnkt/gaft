@@ -15,17 +15,18 @@ const std::set<GAFT_F_EXT>   DEFAULT_SEARCH_EXTS {
     GAFT_F_EXT::TXT
 };
 
-const std::set<GAFT_F_KIND>  DEFAULT_SEARCH_KINDS {
-    GAFT_F_KIND::TEXT
+const std::set<GAFT_F_KIND>  DEFAULT_SEARCH_KINDS { GAFT_F_KIND::TEXT
 };
 
 
 session_t::session_t() :
-      metadata_processor { std::make_unique<metadata_processor_t>() }
-    , default_search_exts   { DEFAULT_SEARCH_EXTS  }
+      // metadata_processor { std::make_unique<metadata_processor_t>() }
+    default_search_exts   { DEFAULT_SEARCH_EXTS  }
     , default_search_kinds  { DEFAULT_SEARCH_KINDS }
 {
-    //init_defaults();
+    metadata_processor_t mp {};
+    metadata_processor = std::make_unique<metadata_processor_t>(mp);
+    init_defaults();
 }
 
 session_t::~session_t() {}
@@ -37,11 +38,11 @@ void session_t::init_defaults()
     // Needs to be a reference to an interface before calling init_defaults.
     // TODO: program options should be shared and held by the session
     
-    // for(auto ext : default_search_exts)
-    //     //get_interface().program_options().add_search_ext(ext);
-    //
-    // for(auto kind : default_search_kinds)
-    //     get_interface().program_options().add_search_kind(kind);
+    for(auto ext : default_search_exts)
+        this->interface->program_options().add_search_ext(ext);
+
+    for(auto kind : default_search_kinds)
+        this->interface->program_options().add_search_kind(kind);
 }
 
 bool session_t::some_search_settings()
